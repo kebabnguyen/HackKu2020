@@ -17,6 +17,7 @@
  ****************************************************/
 #include <SPI.h>
 #include <WiFi101.h>
+#include <LiquidCrystal.h>
 #include "Adafruit_MQTT.h"
 #include "Adafruit_MQTT_Client.h"
 
@@ -36,9 +37,12 @@ Adafruit_MQTT_Client mqtt(&client, AIO_SERVER, AIO_SERVERPORT, AIO_USERNAME, AIO
 
 Adafruit_MQTT_Subscribe LED = Adafruit_MQTT_Subscribe(&mqtt, AIO_USERNAME "/feeds/LED");
 
+LiquidCrystal lcd(12, 11, 10, 5, 4, 3, 2);
 
 void setup() {
 
+  lcd.begin(16,1);
+  lcd.print("Blyat!");
   Serial.begin(9600);
   delay(10);
   pinMode(6,OUTPUT);
@@ -46,7 +50,7 @@ void setup() {
   Serial.println(WLAN_SSID);
   WiFi.begin(WLAN_SSID, WLAN_PASS);
   while (WiFi.status() != WL_CONNECTED) {
-    
+
     Serial.print(F("."));
     WiFi.disconnect();
     delay(3000);
